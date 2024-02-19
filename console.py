@@ -187,11 +187,11 @@ class HBNBCommand(cmd.Cmd):
         elif _args[0] in classes:
             new_dict = self._parse_dict(_args[1:])
             instance = classes[_args[0]](**new_dict)
+            print(instance.id) # prints uuid
+            instance.save()
         else:
             print("** class doesn't exist **")
             return False
-        print(instance.id)  # prints uuid
-        instance.save()
 
     def my_filter(self, objects, class_name):
         filtered_objects = filter(
