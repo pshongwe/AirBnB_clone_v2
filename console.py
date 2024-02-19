@@ -229,6 +229,7 @@ class HBNBCommand(cmd.Cmd):
             if "=" in arg:
                 key, value = arg.split('=', 1)
                 value = value.strip('"').replace('_', ' ')
+                value = value.replace('\\"', '"')
                 try:
                     if '.' in value:
                         value = float(value)
