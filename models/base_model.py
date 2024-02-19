@@ -9,22 +9,16 @@ class BaseModel:
     """A Base class with all public instances"""
     def __init__(self, *args, **kwargs):
         """Initialization of the class"""
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.today()
-        self.updated_at = datetime.today()
         # Check if kwargs is not empty
         if kwargs:
             # Iterate through the key-value pairs in kwargs
             for key, value in kwargs.items():
                 if key == '__class__':
                     continue
-                setattr(self, key, value)
 
                 if key == 'created_at' or key == 'updated_at':
-                    setattr(self, key, datetime.strptime(
-                        value, '%Y-%m-%dT%H:%M:%S.%f'))
-                else:
-                    self.__dict__[key] = value
+                    value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
+                setattr(self, key, value)
 
         else:
             # Generate a unique ID for the instance
