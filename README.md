@@ -18,8 +18,8 @@ The Airbnb Clone Project is a command-line interface (CLI) application that simu
 1. Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/pshongwe/AirBnB_clone.git
-   cd AirBnB_clone
+   git clone https://github.com/pshongwe/AirBnB_clone_v2.git
+   cd AirBnB_clone_v2
 
 ## Team
 - Pibo
