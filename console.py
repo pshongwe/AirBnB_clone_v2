@@ -186,19 +186,19 @@ class HBNBCommand(cmd.Cmd):
             return False
         class_name = _args[0]
         if class_name not in classes:
-            print("** class dosnt exist **")
+            print("** class dosn't exist **")
             return False
 
         if len(_args) == 1:
             print("** instance id missing **")
             return False
 
-        new_dic =self._parse_dict(_args[1:])
-        if not new_dic:
+        new_dict =self._parse_dict(_args[1:])
+        if not new_dict:
             print("** invalid arguments **")
             return False
         try:
-            instance = classes[class_name](**new_dic)
+            instance = classes[class_name](**new_dict)
             print(instance.id)
             instance.save()
         except Exception as e:
