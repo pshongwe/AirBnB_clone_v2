@@ -24,9 +24,19 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-    def all(self):
-        """returns the dictionary __objects."""
-        return self.__objects
+    def all(self, cls=None):
+        """returns a list of objects of a specific class type if cls provided
+        otherwise returns a dictionary of all objects.
+
+        Args:
+            cls (class, optional): The class type to filter objects.
+        Returns:
+            dict or list: If cls is None, returns dict of all objects
+            otherwise returns list of objects of specified class type.
+        """
+        if cls is None:
+            return self.__objects
+        return [obj for obj in self.__objects.values() if isinstance(obj, cls)]
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id."""
