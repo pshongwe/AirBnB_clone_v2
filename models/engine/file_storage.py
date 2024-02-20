@@ -36,7 +36,11 @@ class FileStorage:
         """
         if cls is None:
             return self.__objects
-        return [obj for obj in self.__objects.values() if isinstance(obj, cls)]
+        filtered_obj = {}
+        for key, obj in self.__objects.items():
+            if isinstance(obj, cls):
+                filtered_obj[key] = obj
+        return filtered_obj
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id."""
