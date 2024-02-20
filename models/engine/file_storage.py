@@ -89,3 +89,14 @@ class FileStorage:
         if obj is not None:
             del self.__objects[obj.__class__.__name__ + '.' + obj.id]
             self.save()
+
+    def cities(self):
+        """Returns the list of City instances with state_id equals to
+        the current State.id.
+        """
+        all_cities = self.all(City)
+        state_cities = []
+        for city in all_cities.values():
+            if city.state_id == self.id:
+                state_cities.append(City)
+        return state_cities

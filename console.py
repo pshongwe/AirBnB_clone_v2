@@ -193,7 +193,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return False
 
-        new_dict =self._parse_dict(_args[1:])
+        new_dict = self._parse_dict(_args[1:])
         if not new_dict:
             print("** invalid arguments **")
             return False

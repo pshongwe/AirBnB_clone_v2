@@ -3,61 +3,45 @@
 import uuid
 import models
 from datetime import datetime
+from sqlalchemy import DateTime
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
 
 
 class BaseModel:
     """A Base class with all public instances"""
+    id = Column(String(60), nullable=False, primary_key=True)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+
     def __init__(self, *args, **kwargs):
         """Initialization of the class"""
-        self.id = str(uuid.uuid4())
         # Check if kwargs is not empty
         if kwargs:
             # Iterate through the key-value pairs in kwargs
             for key, value in kwargs.items():
-                if key == '__class__':
-                    continue
-
-                if key == 'created_at' or key == 'updated_at':
-                    value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
-                setattr(self, key, value)
-
-        else:
-            # Generate a unique ID for the instance
-            self.id = str(uuid.uuid4())
-
-            # Set the created_at and updated_at attrbs to the current datetime
-            current_time = datetime.utcnow()
-            self.created_at = current_time
-            self.updated_at = current_time
-
-            models.storage.new(self)
+                if key != '__class__':
+                    if not hasattr(self, key):
+                        setattr(self, key, value)
+            if 'id' not in kwargs:
+                setattr(self, 'id', str(uuid4()))
 
     def save(self):
         """Update the updated_at attribute to the current datetime"""
         self.updated_at = datetime.utcnow()
+        models.storage.new(self)
         models.storage.save()
 
     def to_dict(self):
-        """Converts created_at and updated_at to str objects in ISO format"""
-        time_fmt = '%Y-%m-%dT%H:%M:%S.%f'
-        if isinstance(self.created_at, str):
-            self.created_at = datetime.strptime(self.created_at, time_fmt)
-        if isinstance(self.updated_at, str):
-            self.updated_at = datetime.strptime(self.updated_at, time_fmt)
-
-        c_at_string = self.created_at.strftime(time_fmt)
-        u_at_string = self.updated_at.strftime(time_fmt)
-
-        my_dict = {
-            k: v for k, v in self.__dict__.items() if not k.startswith('_')
-        }
-
-        my_dict['created_at'] = c_at_string
-        my_dict['updated_at'] = u_at_string
-
-        my_dict['__class__'] = self.__class__.__name__
-
-        return my_dict
+        """Returns a dictionary containing all keys/values of __dict__
+        of the instance
+        """
+        new_d = self.__dict__.copy()
+        if '_sa_instance_state' in new_d:
+            del new_d['_sa_instance_state']
+        return new_d
 
     def __str__(self):
         """return the string representation of the object"""
