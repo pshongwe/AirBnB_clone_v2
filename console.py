@@ -181,13 +181,31 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
 
         def do_create(self, args):
-            """Creates new instance of class"""
+            """Creates a new instance of a class with given parameters."""
             _args = args.split()
             if len(_args) == 0:
                 print("** class name missing **")
                 return False
             elif _args[0] in classes:
-                new_dict = self._parse_dict(_args[1:])
+                new_dict = {}
+                for arg in _args[1:]:
+                    key_value = arg.split('=')
+                    if len(key_value) == 2:
+                        key, value = key_value
+                        if value[0] == '"' and value[-1] == '"':
+                            value = value[1:-1].replace('_', ' ')
+                            value = value.replace('\\"', '"')
+                        elif '.' in value:
+                            try:
+                                value = float(value)
+                            except ValueError:
+                                continue
+                        else:
+                            try:
+                                value = int(value)
+                            except ValueError:
+                                continue
+                        new_dict[key] = value
                 instance = classes[_args[0]](**new_dict)
                 print(instance.id)
                 instance.save()
