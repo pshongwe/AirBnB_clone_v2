@@ -2,6 +2,7 @@
 """Module that defines class Place"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from sqlalchemy.orm import relationship
 
 
 class Place(BaseModel, Base):
@@ -17,3 +18,16 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+    reviews = relationship("Review", backref="place", cascade="all, delete")
+
+    @property
+    def reviews(self):
+        """getter attribute that returns the list of Review instances with
+        place_id equals to the current Place.id
+        """
+        review_list = []
+        reviews = storage.all(Review)
+        for review in reviews.values():
+            if review.place_id == self.id:
+                review_list.append(review)
+        return review_list
