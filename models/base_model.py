@@ -6,6 +6,7 @@ from datetime import datetime
 from sqlalchemy import DateTime
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
+from uuid import uuid4
 
 Base = declarative_base()
 
@@ -41,6 +42,9 @@ class BaseModel:
         new_d = self.__dict__.copy()
         if '_sa_instance_state' in new_d:
             del new_d['_sa_instance_state']
+        for key, value in new_d.items():
+            if isinstance(value, datetime):
+                new_d[key] = value.isoformat()
         return new_d
 
     def __str__(self):
