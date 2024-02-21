@@ -184,25 +184,13 @@ class HBNBCommand(cmd.Cmd):
         if len(_args) == 0:
             print("** class name missing **")
             return False
-        class_name = _args[0]
-        if class_name not in classes:
-            print("** class dosn't exist **")
-            return False
-
-        if len(_args) == 1:
-            print("** instance id missing **")
-            return False
-
-        new_dict = self._parse_dict(_args[1:])
-        if not new_dict:
-            print("** invalid arguments **")
-            return False
-        try:
-            instance = classes[class_name](**new_dict)
+        elif _args[0] in classes:
+            new_dict = self._parse_dict(_args[1:])
+            instance = classes[_args[0]](**new_dict)
             print(instance.id)
             instance.save()
-        except Exception as e:
-            print(f"Error creating instance: {e}")
+        else:
+            print("** class doesn't exist **")
             return False
 
     def my_filter(self, objects, class_name):
