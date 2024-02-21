@@ -36,6 +36,7 @@ class TestConsole(unittest.TestCase):
         self.assertTrue(len(HBNBCommand.__doc__) >= 1,
                         "HBNBCommand class needs a docstring")
 
+
 class TestCodeFormat(unittest.TestCase):
     """Test code format"""
     def test_pep8_conformance_console(self):

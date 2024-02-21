@@ -9,6 +9,7 @@ from models.state import State
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 
+
 class TestDBStorage(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -17,7 +18,9 @@ class TestDBStorage(unittest.TestCase):
         pwd = os.getenv("HBNB_MYSQL_PWD", "hbnb_test_pwd")
         host = os.getenv("HBNB_MYSQL_HOST", "localhost")
         db = "hbnb_test_db"
-        cls.engine = create_engine(f"mysql+mysqldb://{user}:{pwd}@{host}/{db}", pool_pre_ping=True)
+        prefix = "mysql+mysqldb"
+        cls.engine = create_engine(f"{prefix}://{user}:{pwd}@{host}/{db}",
+                                   pool_pre_ping=True)
         Base.metadata.create_all(cls.engine)
         Session = sessionmaker(bind=cls.engine)
         cls.session = scoped_session(Session)
@@ -80,6 +83,7 @@ class TestDBStorage(unittest.TestCase):
         """Test reload method"""
         self.storage.reload()
         self.assertIsNotNone(self.storage.__session)
+
 
 if __name__ == '__main__':
     unittest.main()
