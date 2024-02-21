@@ -173,25 +173,27 @@ class HBNBCommand(cmd.Cmd):
 
         instance_id = class_name + "." + _args[1]
 
-        if instance_id in models.storage.all():
-            print(models.storage.all()[instance_id])
+        all_objects = models.storage.all()
+        if instance_id in all_objects:
+            obj = all_objects[instance_id]
+            print(obj.to_dict())
         else:
             print("** no instance found **")
 
-    def do_create(self, args):
-        """Creates new instance of class"""
-        _args = args.split()
-        if len(_args) == 0:
-            print("** class name missing **")
-            return False
-        elif _args[0] in classes:
-            new_dict = self._parse_dict(_args[1:])
-            instance = classes[_args[0]](**new_dict)
-            print(instance.id)
-            instance.save()
-        else:
-            print("** class doesn't exist **")
-            return False
+        def do_create(self, args):
+            """Creates new instance of class"""
+            _args = args.split()
+            if len(_args) == 0:
+                print("** class name missing **")
+                return False
+            elif _args[0] in classes:
+                new_dict = self._parse_dict(_args[1:])
+                instance = classes[_args[0]](**new_dict)
+                print(instance.id)
+                instance.save()
+            else:
+                print("** class doesn't exist **")
+                return False
 
     def my_filter(self, objects, class_name):
         filtered_objects = filter(
