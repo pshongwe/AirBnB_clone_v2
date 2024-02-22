@@ -5,8 +5,9 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Column, String, Table
 
 
-class Amenity(BaseModel):
+class Amenity(BaseModel, Base):
     """Amenity class that inherits from BaseModel"""
     __tablename__ = 'amenities'
     name = Column(String(128), nullable=False)
-    place_amenities = relationship("Place", secondary=place_amenity)
+    place_amenities = relationship(
+            "Place", secondary="place_amenity", viewonly=False)
