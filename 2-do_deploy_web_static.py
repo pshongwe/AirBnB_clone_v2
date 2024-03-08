@@ -20,7 +20,8 @@ def do_deploy(archive_path):
         run("mkdir -p {}".format(dest_path))
         run("tar -xzf /tmp/{} -C {}".format(file_name, dest_path))
         run("rm /tmp/{}".format(file_name))
-        run("mv {0}web_static/* {0}".format(dest_path))
+        run("mv /data/web_static/releases/{}/web_static/* "
+           "/data/web_static/releases/{}/".format(name, name))
         run("rm -rf {}web_static".format(dest_path))
         run("rm -rf /data/web_static/current")
         run("ln -s {} /data/web_static/current".format(dest_path))
