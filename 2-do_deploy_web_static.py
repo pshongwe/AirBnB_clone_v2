@@ -17,19 +17,20 @@ def do_deploy(archive_path):
     currentPath = "/data/web_static/current"
     if put(archive_path, "/tmp/{}".format(fileName)).failed is True:
         return False
-    if run("mkdir -p {}".format(destPath)).failed is True:
+    if run("sudo mkdir -p {}".format(destPath)).failed is True:
         return False
     if run("tar -xzf /tmp/{} -C {}".format(fileName, destPath)).failed is True:
         return False
     if run("rm /tmp/{}".format(fileName)).failed is True:
         return False
-    if run("mv /data/web_static/releases/{}/web_static/* "
+    if run("sudo mv /data/web_static/releases/{}/web_static/* "
             "/data/web_static/releases/{}/".format(name, name)).failed is True:
         return False
-    if run("rm -rf {}web_static".format(destPath)).failed is True:
+    if run("sudo rm -rf {}web_static".format(destPath)).failed is True:
         return False
-    if run("rm -rf {}".format(currentPath)).failed is True:
+    if run("sudo rm -rf {}".format(currentPath)).failed is True:
         return False
-    if run("ln -s {} {}".format(destPath, currentPath)).failed is True:
+    if run("sudo ln -s {} {}".format(destPath, currentPath)).failed is True:
         return False
+    print("New version deployed!")
     return True
