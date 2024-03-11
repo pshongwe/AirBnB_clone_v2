@@ -19,7 +19,7 @@ def do_deploy(archive_path):
         return False
     if run("sudo mkdir -p {}".format(destPath)).failed is True:
         return False
-    if run("tar -xzf /tmp/{} -C {}".format(fileName, destPath)).failed is True:
+    if run("sudo tar -xzf /tmp/{} -C {}".format(fileName, destPath)).failed is True:
         return False
     if run("rm /tmp/{}".format(fileName)).failed is True:
         return False
