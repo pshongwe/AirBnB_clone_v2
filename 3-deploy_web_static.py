@@ -17,8 +17,9 @@ def do_pack():
     archive_name = "versions/web_static_{}.tgz".format(now)
     # Create the archive
     local("tar -cvzf {} web_static".format(archive_name))
-    if local("mkdir -p versions").failed is True:
-        return None
+    if os.path.isdir("versions") is False:
+        if local("mkdir -p versions").failed is True:
+            return None
     if local("tar -cvzf {} web_static".format(archive_name)).failed is True:
         return None
     return archive_name
