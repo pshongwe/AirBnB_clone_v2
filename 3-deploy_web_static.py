@@ -40,7 +40,7 @@ def do_deploy(archive_path):
         return False
     if run("sudo tar -xzf /tmp/{} -C {}".format(fn, destPath)).failed is True:
         return False
-    if run("rm /tmp/{}".format(fn)).failed is True:
+    if run("sudo rm /tmp/{}".format(fn)).failed is True:
         return False
     if run("sudo mv /data/web_static/releases/{}/web_static/* "
             "/data/web_static/releases/{}/".format(name, name)).failed is True:
