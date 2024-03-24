@@ -10,18 +10,20 @@ class State(BaseModel, Base):
     """State class that inherits from BaseModel"""
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
-    cities = relationship("City", backref="state",
-                          cascade="all, delete, delete-orphan")
 
-    @property
-    def cities(self):
-        """Returns the list of City instances with state_id equals to
-        the current State.id.
-        """
-        from models import storage
-        all_cities = storage.all(City)
-        state_cities = []
-        for city in all_cities.values():
-            if city.state_id == self.id:
-                state_cities.append(city)
-        return state_cities
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        cities = relationship("City", backref="state",
+                              cascade="all, delete, delete-orphan")
+    else:
+        @property
+        def cities(self):
+            """Returns the list of City instances with state_id equals to
+            the current State.id.
+            """
+            from models import storage
+            all_cities = storage.all(City)
+            state_cities = []
+            for city in all_cities.values():
+                if city.state_id == self.id:
+                    state_cities.append(city)
+            return state_cities
