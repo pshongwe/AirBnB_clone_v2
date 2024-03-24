@@ -10,16 +10,17 @@ class State(BaseModel, Base):
     """State class that inherits from BaseModel"""
     __tablename__ = 'states'
     name = Column(String(128), nullable=False)
-    cities = relationship("City", backref="state", cascade="all, delete")
+    cities = relationship("City", backref="state", cascade="all, delete, delete-orphan")
 
     @property
     def cities(self):
         """Returns the list of City instances with state_id equals to
         the current State.id.
         """
-        all_cities = self.all(City)
+        from models import storage
+        all_cities = storage.all(City)
         state_cities = []
         for city in all_cities.values():
             if city.state_id == self.id:
-                state_cities.append(City)
+                state_cities.append(city)
         return state_cities
