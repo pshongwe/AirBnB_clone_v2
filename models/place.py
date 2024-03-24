@@ -6,15 +6,16 @@ import os
 from sqlalchemy.orm import relationship
 
 # Define place_amenity outside of the if block
-place_amenity = Table('place_amenity', Base.metadata,
-                      Column('place_id', String(60),
-                             ForeignKey('places.id'),
-                             primary_key=True,
-                             nullable=False),
-                      Column('amenity_id', String(60),
-                             ForeignKey('amenities.id'),
-                             primary_key=True,
-                             nullable=False))
+if os.getenv("HBNB_TYPE_STORAGE") == "db":
+    place_amenity = Table('place_amenity', Base.metadata,
+                          Column('place_id', String(60),
+                                 ForeignKey('places.id'),
+                                 primary_key=True,
+                                 nullable=False),
+                          Column('amenity_id', String(60),
+                                 ForeignKey('amenities.id'),
+                                 primary_key=True,
+                                 nullable=False))
 
 class Place(BaseModel, Base):
     """Place class that inherits from BaseModel"""
@@ -36,6 +37,7 @@ class Place(BaseModel, Base):
             overlaps="place_amenities",
             viewonly=False)
     amenity_ids = []
+    user = relationship('User', back_populates='places')
 
     if os.getenv('HBNB_TYPE_STORAGE') != 'db':
         @property
@@ -67,3 +69,15 @@ class Place(BaseModel, Base):
             """Setter attribute for amenities"""
             if isinstance(obj, Amenity):
                 self.amenity_ids.append(obj.id)
+    else:
+        city_id = ""
+        user_id = ""
+        name = ""
+        description = ""
+        number_rooms = 0
+        number_bathrooms = 0
+        max_guest = 0
+        price_by_night = 0
+        latitude = 0.0
+        longitude = 0.0
+        amenity_ids = []
