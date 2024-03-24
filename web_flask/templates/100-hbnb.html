@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HBNB</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/3-header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/4-common.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/3-footer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/6-filters.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/8-places.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <div class="filters">
+            <h3>States</h3>
+            <ul class="popover">
+                {% for state in states %}
+                    <li>{{ state.name }}
+                        <ul>
+                            {% for city in state.cities %}
+                                <li>{{ city.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="filters">
+            <h3>Amenities</h3>
+            <ul class="popover">
+                {% for amenity in amenities %}
+                    <li>{{ amenity.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="places">
+            <h3>Places</h3>
+            <div class="places_content">
+                {% for place in places %}
+                    <div class="place">
+                        <h4>{{ place.name }}</h4>
+                        <div class="price_by_night">${{ place.price_by_night }}</div>
+                        <div class="information">
+                            <div class="max_guest">{{ place.max_guest }} Guest{% if place.max_guest != 1 %}s{% endif %}</div>
+                            <div class="number_rooms">{{ place.number_rooms }} Bedroom{% if place.number_rooms != 1 %}s{% endif %}</div>
+                            <div class="number_bathrooms">{{ place.number_bathrooms }} Bathroom{% if place.number_bathrooms != 1 %}s{% endif %}</div>
+                        </div>
+                        <div class="user">
+                            <b>Owner:</b> {{ place.user.first_name }} {{ place.user.last_name }}
+                        </div>
+                        <div class="description">
+                            {{ place.description | safe }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>
+            <a href="https://www.holbertonschool.com/">
+                Holberton School
+            </a>
+        </p>
+    </footer>
+
+</body>
+</html>
