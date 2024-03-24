@@ -6,6 +6,7 @@ from models.city import City
 from sqlalchemy.orm import relationship
 from os import getenv
 
+
 class State(BaseModel, Base):
     """State class that inherits from BaseModel"""
     __tablename__ = 'states'
