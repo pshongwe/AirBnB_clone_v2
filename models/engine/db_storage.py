@@ -33,7 +33,8 @@ class DBStorage:
     def all(self, cls=None):
         """Query all objects from the current database session"""
         all_obj = {}
-
+        if not self.__session:
+            self.__session = self._create_session()
         if cls is not None:
             objects = self.__session.query(cls).all()
             for obj in objects:
@@ -72,3 +73,4 @@ class DBStorage:
         """Call remove() method on the
         private session attribute (self.__session)."""
         self.__session.remove()
+        self.__session = None
