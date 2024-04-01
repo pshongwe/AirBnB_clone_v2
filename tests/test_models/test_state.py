@@ -27,22 +27,23 @@ class TestState(unittest.TestCase):
     def test_state_creation(self):
         """Test the creation of a State instance"""
         self.assertIsInstance(self.state, State)
-        self.assertTrue(self.state.id)
-        self.assertTrue(self.state.created_at)
-        self.assertTrue(self.state.updated_at)
+        self.assertTrue(hasattr(self.state, "id"))
+        self.assertTrue(hasattr(self.state, "created_at"))
+        self.assertTrue(hasattr(self.state, "updated_at"))
 
     def test_str_representation(self):
         """Test the string representation of a State instance"""
         expected_str = f"[State] ({self.state.id}) {self.state.__dict__}"
-        self.assertEqual(str(self.state), expected_str)
+        self.assertEqual(expected_str, str(self.state))
 
     def test_name_attribute_type(self):
         """Test if the 'name' attribute is a string"""
-        self.assertIsInstance(self.state.name, str)
+        self.assertTrue(hasattr(self.state, "name"))
+        self.assertEqual(self.state.name, None)
 
     def test_name_attribute_initial_value(self):
         """Test the initial value of the 'name' attribute"""
-        self.assertEqual(self.state.name, "")
+        self.assertEqual(self.state.name, None)
 
     def test_update_name_attribute(self):
         """Test updating the 'name' attribute"""

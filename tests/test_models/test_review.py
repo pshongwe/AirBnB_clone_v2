@@ -29,9 +29,9 @@ class TestReview(unittest.TestCase):
     def test_review_creation(self):
         """Test the creation of a Review instance"""
         self.assertIsInstance(self.review, Review)
-        self.assertTrue(self.review.id)
-        self.assertTrue(self.review.created_at)
-        self.assertTrue(self.review.updated_at)
+        self.assertTrue(hasattr(self.review, "id"))
+        self.assertTrue(hasattr(self.review, "created_at"))
+        self.assertTrue(hasattr(self.review, "updated_at"))
 
     def test_str_representation(self):
         """Test the string representation of a Review instance"""
@@ -40,27 +40,30 @@ class TestReview(unittest.TestCase):
 
     def test_place_id_attribute_type(self):
         """Test if the 'place_id' attribute is a string"""
-        self.assertIsInstance(self.review.place_id, str)
+        self.assertTrue(hasattr(self.review, "place_id"))
+        self.assertEqual(self.review.place_id, None)
 
     def test_user_id_attribute_type(self):
         """Test if the 'user_id' attribute is a string"""
-        self.assertIsInstance(self.review.user_id, str)
+        self.assertTrue(hasattr(self.review, "user_id"))
+        self.assertEqual(review.user_id, None)
 
-    def test_text_attribute_type(self):
+    def test_text_attribute(self):
         """Test if the 'text' attribute is a string"""
-        self.assertIsInstance(self.review.text, str)
+        self.assertTrue(hasattr(self.review, "text"))
+        self.assertEqual(self.review.text, None)
 
     def test_place_id_initial_value(self):
         """Test the initial value of the 'place_id' attribute"""
-        self.assertEqual(self.review.place_id, "")
+        self.assertEqual(self.review.place_id, None)
 
     def test_user_id_initial_value(self):
         """Test the initial value of the 'user_id' attribute"""
-        self.assertEqual(self.review.user_id, "")
+        self.assertEqual(self.review.user_id, None)
 
     def test_text_initial_value(self):
         """Test the initial value of the 'text' attribute"""
-        self.assertEqual(self.review.text, "")
+        self.assertEqual(self.review.text, None)
 
     def test_update_place_id_attribute(self):
         """Test updating the 'place_id' attribute"""

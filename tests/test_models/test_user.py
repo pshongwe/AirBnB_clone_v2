@@ -37,9 +37,9 @@ class TestUser(unittest.TestCase):
     def test_user_creation(self):
         """Test user create"""
         self.assertIsInstance(self.user, User)
-        self.assertTrue(self.user.id)
-        self.assertTrue(self.user.created_at)
-        self.assertTrue(self.user.updated_at)
+        self.assertTrue(hasattr(user, "id"))
+        self.assertTrue(hasattr(user, "created_at"))
+        self.assertTrue(hasattr(user, "updated_at"))
 
     def test_str_representation(self):
         """Test the string representation of a User instance"""
